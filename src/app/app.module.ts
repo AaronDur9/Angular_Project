@@ -29,23 +29,17 @@ import { PostsResolve } from "./services/posts-resolve.service";
 import { PostService } from "./services/post.service";
 import { SearchBoxComponent } from "./components/search-box/search-box.component";
 import { UserPostsComponent } from "./components/user-posts/user-posts.component";
+import { FromNowPipe } from './pipes/from-now.pipe';
 
 @NgModule({
-    imports: [
+    imports: [ // Metemos todos los módulos que necesita mi app
         AppRoutingModule,
         BrowserModule,
         FormsModule,
         HttpModule,
         BrowserAnimationsModule
     ],
-
-    /*-----------------------------------------------|
-     | ~~~ Blue Path ~~~                             |
-     |-----------------------------------------------|
-     | No olvides declarar FromNowPipe en el módulo. |
-     |-----------------------------------------------*/
-
-    declarations: [
+    declarations: [ // Metemos todos los componentes, directivas y pipes
         AppComponent,
         AutoGrowDirective,
         CategoryBoxComponent,
@@ -58,9 +52,10 @@ import { UserPostsComponent } from "./components/user-posts/user-posts.component
         PostFormComponent,
         PostsListComponent,
         SearchBoxComponent,
-        UserPostsComponent
+        UserPostsComponent,
+        FromNowPipe
     ],
-    providers: [
+    providers: [ // Metemos los servicios
         BackendUriProvider,
         CategoryService,
         PostDetailsResolve,

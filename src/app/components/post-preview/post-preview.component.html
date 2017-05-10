@@ -11,24 +11,11 @@
         |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
         -->
         <span class="name blink-font">{{ post.author.name }}</span>
-        <!--
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        | Blue Path                                                                     |
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        | Una vez tengas creado el pipe FromNowPipe, úsalo con la fecha de publicación. |
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        -->
-        <span class="date">{{ post.publicationDate }}</span>
+        <span class="date">{{ post.publicationDate | fromNow }}</span>
     </div>
 </div>
-<!--
-|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-| Green Path                                                          |
-|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-| Un clic sobre el post debería enviar un evento al componente padre. |
-|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
--->
-<div class="post">
+
+<div (click)="showPostDetails()" class="post">
     <h3>{{ post.title }}</h3>
     <img *ngIf="post.media" [src]="post.media" class="u-max-full-width">
     <div class="html-text" [innerHtml]="plainTextToHtml(post.intro)"></div>
