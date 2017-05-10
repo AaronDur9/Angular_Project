@@ -7,4 +7,4 @@
 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 -->
 
-<post-preview (showDetails)="navToPostDetails($event)" *ngFor="let post of posts" [post]="post"></post-preview>
+<post-preview (showAuthor)="navToAuthorDetails($event)" (showDetails)="navToPostDetails($event)" *ngFor="let post of posts" [post]="post"></post-preview>

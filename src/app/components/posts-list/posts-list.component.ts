@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 
 import { Post } from "../../models/post";
 import { Router } from '@angular/router';
+import { User } from '../../models/user';
 
 @Component({
     selector: "posts-list",
@@ -23,8 +24,17 @@ export class PostsListComponent {
      | La ruta a navegar es '/posts/users', pasando como parámetro el identificador del autor.                          |
      |------------------------------------------------------------------------------------------------------------------*/
 
+
+         navToAuthorDetails(author: number): void {
+        this._router.navigateByUrl(`posts/users/${author}`);    
+    }
+
+
      navToPostDetails(post: Post): void {
          this._router.navigateByUrl(`/posts/${post.id}`);
      }
+
+
+     
 
 }

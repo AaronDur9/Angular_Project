@@ -1,6 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Category } from "../../models/category";
+import { Category } from '../../models/category';
 
 @Component({
     selector: "category-box",
@@ -10,13 +10,14 @@ import { Category } from "../../models/category";
 export class CategoryBoxComponent {
 
     @Input() categories: Category[];
+    
+    @Output()  filterByCategory: EventEmitter<Category> = new EventEmitter();
 
-    /*-------------------------------------------------------------------------------------------------------------------|
-     | ~~~ Yellow Path ~~~                                                                                               |
-     |-------------------------------------------------------------------------------------------------------------------|
-     | Expón un atributo de salida con el decorador correspondiente. El tipo de dicho atributo debe permitir la emisión  |
-     | de eventos; la idea es enviar al componente padre la categoría sobre el cuál se ha hecho clic. Y puesto que dicho |
-     | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                 |
-     |-------------------------------------------------------------------------------------------------------------------*/
+
+     // Notificamos a nuestro padre (Post-details) que han pulsado sobre una categoría.
+     notifyCategory(category: Category): void {
+         this.filterByCategory.emit(category);
+     }
+
 
 }

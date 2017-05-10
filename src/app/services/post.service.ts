@@ -5,6 +5,7 @@ import "rxjs/add/operator/map";
 
 import { BackendUri } from "./settings.service";
 import { Post } from "../models/post";
+import { Category } from '../models/category';
 
 @Injectable()
 export class PostService {
@@ -25,27 +26,16 @@ export class PostService {
                    .map((response: Response) => Post.fromJsonToList(response.json()));
     }
 
+
+    // Hacer petición al servidor para que solo devuelva los posts de los usuarios con un cierto id
     getUserPosts(id: number): Observable<Post[]> {
 
-        /*----------------------------------------------------------------------------------------------|
-         | ~~~ Red Path ~~~                                                                             |
-         |----------------------------------------------------------------------------------------------|
-         | Ahora mismo, esta función está obteniendo todos los posts existentes, y solo debería obtener |
-         | aquellos correspondientes al autor indicado. Añade los parámetros de búsqueda oportunos para |
-         | que retorne solo los posts que buscamos. Ten en cuenta que, además, deben estar ordenados    |
-         | por fecha de publicación descendente y obtener solo aquellos que estén publicados.           |
-         |                                                                                              |
-         | En la documentación de 'JSON Server' tienes detallado cómo hacer el filtrado y ordenación de |
-         | los datos en tus peticiones, pero te ayudo igualmente. La querystring debe tener estos       |
-         | parámetros:                                                                                  |
-         |                                                                                              |
-         |   - Filtro por autor: author.id=x (siendo x el identificador del autor)                      |
-         |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)        |
-         |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
-         |----------------------------------------------------------------------------------------------*/
+        
+          // Current date in timestamp format
+         const date: number = +new Date();
 
         return this._http
-                   .get(`${this._backendUri}/posts`)
+                   .get(`${this._backendUri}/posts?author.id=${id}&publicationDate_lte=${date}&_sort=publicationDate&_order=DESC`)
                    .map((response: Response) => Post.fromJsonToList(response.json()));
     }
 
@@ -72,10 +62,31 @@ export class PostService {
          |   - Ordenación: _sort=publicationDate&_order=DESC                                                |
          |--------------------------------------------------------------------------------------------------*/
 
+         // Current date in timestamp format
+         const date: number = +new Date();
+
         return this._http
-                   .get(`${this._backendUri}/posts`)
-                   .map((response: Response) => Post.fromJsonToList(response.json()));
+                   .get(`${this._backendUri}/posts?publicationDate_lte=${date}&_sort=publicationDate&_order=DESC`)
+                   .map((response: Response) =>  {
+                       // En post tenemos todos los post ordenados, pero aún tenemos que filtrarlos por categoría
+                       const posts: Array<Post> = Post.fromJsonToList(response.json());
+                       
+                       // Filtramos los posts, eliminando aquellos que no tengan una categoría igual a la seleccionada. 
+                      const a: Array<Post> =  posts.filter(post => {
+                           //Comprobamos si alguna categoría del post actual tiene la categoría seleccionada.
+                           post.categories.find((category) => {
+                               return category.id === id;
+                           });
+                       });
+
+                       console.log(a);
+
+
+                       return posts;
+                       
+                });
     }
+
 
     getPostDetails(id: number): Observable<Post> {
         return this._http

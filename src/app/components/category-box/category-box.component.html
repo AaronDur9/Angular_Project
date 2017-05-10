@@ -1,12 +1,7 @@
 <div>
-    <!--
-    |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-    | Yellow Path                                                              |
-    |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-    | Un clic sobre la categoría debería enviar un evento al componente padre. |
-    |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-    -->
-    <span class="blink-font" *ngFor="let category of categories">
+    <!--Cuando hacen click en una categoría notificamos al componente padre-->
+    <!--Para pasarle la categoría concreta sobre la que han pulsado, la pasamos por parámetro-->
+    <span class="blink-font" (click)="notifyCategory(category)" *ngFor="let category of categories">
         {{ category.name }}
     </span>
 </div>
