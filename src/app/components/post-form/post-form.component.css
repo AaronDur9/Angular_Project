@@ -56,7 +56,7 @@ label {
     margin-right: 10px;
     margin-top: -3px;
     background-color: #fff;
-    border: 1px solid rgba(0,0,0,.15);
+    border: 1px solid rgba(0, 0, 0, .15);
     border-radius: 100%;
 }
 
@@ -70,6 +70,11 @@ label {
     display: block;
     background-color: #02b875;
     border-radius: 100%;
+}
+
+.mensaje-error {
+    color: red;
+    margin-bottom: 20px;
 }
 
 input[type="datetime-local"] {

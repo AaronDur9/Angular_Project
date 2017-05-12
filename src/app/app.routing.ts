@@ -36,6 +36,13 @@ const routes: Routes = [
         component: NewStoryComponent
     },
     {
+        path: "edit-story/:postId",
+        component: NewStoryComponent,
+        resolve: {
+            post: PostDetailsResolve
+        }
+    },
+    {
         path: "posts/:postId",
         component: PostDetailsComponent,
         resolve: {

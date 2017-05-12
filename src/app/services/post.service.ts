@@ -41,48 +41,30 @@ export class PostService {
 
     getCategoryPosts(id: number): Observable<Post[]> {
 
-        /*--------------------------------------------------------------------------------------------------|
-         | ~~~ Yellow Path ~~~                                                                              |
-         |--------------------------------------------------------------------------------------------------|
-         | Ahora mismo, esta función está obteniendo todos los posts existentes, y solo debería obtener     |
-         | aquellos correspondientes a la categoría indicada. Añade los parámetros de búsqueda oportunos    |
-         | para que retorne solo los posts que buscamos. Ten en cuenta que, además, deben estar ordenados   |
-         | por fecha de publicación descendente y obtener solo aquellos que estén publicados.               |
-         |                                                                                                  |
-         | Este Path tiene un extra de dificultad: un objeto Post tiene una colección de objetos Categoria, |
-         | y 'JSON Server' no permite filtrado en colecciones anidadas. Por tanto, te toca a ti darle una   |
-         | solución a este marrón. Una posibilidad sería aprovechar el operador 'map' de los observables.   |
-         | Sirven para transformar flujos de datos y, de alguna forma, es lo que vamos buscando. Podríamos  |
-         | obtener todos los posts y luego filtrarlos por categoría en 'map'. Ahí te lo dejo.               |
-         |                                                                                                  |
-         | En la documentación de 'JSON Server' tienes detallado cómo hacer el filtrado y ordenación de los |
-         | datos en tus peticiones, pero te ayudo igualmente. La querystring debe tener estos parámetros:   |
-         |                                                                                                  |
-         |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)            |
-         |   - Ordenación: _sort=publicationDate&_order=DESC                                                |
-         |--------------------------------------------------------------------------------------------------*/
-
          // Current date in timestamp format
          const date: number = +new Date();
 
         return this._http
                    .get(`${this._backendUri}/posts?publicationDate_lte=${date}&_sort=publicationDate&_order=DESC`)
                    .map((response: Response) =>  {
+                       //debugger;
                        // En post tenemos todos los post ordenados, pero aún tenemos que filtrarlos por categoría
                        const posts: Array<Post> = Post.fromJsonToList(response.json());
                        
                        // Filtramos los posts, eliminando aquellos que no tengan una categoría igual a la seleccionada. 
                       const a: Array<Post> =  posts.filter(post => {
                            //Comprobamos si alguna categoría del post actual tiene la categoría seleccionada.
-                           post.categories.find((category) => {
-                               return category.id === id;
+                           const res = post.categories.findIndex((category) => {
+                               return category.id === +id;
                            });
+                           if(res !== -1){
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
                        });
-
-                       console.log(a);
-
-
-                       return posts;
+                       return a;
                        
                 });
     }
@@ -96,6 +78,9 @@ export class PostService {
 
     createPost(post: Post): Observable<Post> {
 
+        return this._http
+        .post(`${this._backendUri}/posts`, post)
+        .map(res => Post.fromJson(res.json()));
         /*----------------------------------------------------------------------------------|
          | ~~~ Purple Path ~~~                                                              |
          |----------------------------------------------------------------------------------|
@@ -105,7 +90,5 @@ export class PostService {
          | datos actualizados obtenidos tras la inserción; puedes usar la función estática  |
          | 'fromJson() para crar un nuevo objeto Post basado en la respuesta HTTP obtenida. |
          |----------------------------------------------------------------------------------*/
-
-        return null;
     }
 }

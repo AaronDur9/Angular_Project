@@ -3,6 +3,7 @@ import { FormGroup } from "@angular/forms";
 
 import { Post } from "../../models/post";
 import { User } from "../../models/user";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: "post-form",
@@ -12,12 +13,17 @@ import { User } from "../../models/user";
 export class PostFormComponent implements OnInit {
 
     nowDatetimeLocal: string;
+    post: Post;
     publicationDateScheduled: boolean = false;
-
     @Output() postSubmitted: EventEmitter<Post> = new EventEmitter();
+
+
+    constructor(private _activatedRoute: ActivatedRoute) {}
 
     ngOnInit(): void {
         this.nowDatetimeLocal = this._formatDateToDatetimeLocal(new Date());
+        this._activatedRoute.data.forEach((data: { post: Post}) => this.post = data.post);
+        console.log(this.post);
     }
 
     private _formatDateToDatetimeLocal(date: Date) {
@@ -53,19 +59,19 @@ export class PostFormComponent implements OnInit {
 
     submitPost(form: FormGroup): void {
 
-        /*-------------------------------------------------------------------------------------------------------------|
-         | ~~~ Purple Path ~~~                                                                                         |
-         |-------------------------------------------------------------------------------------------------------------|
-         | Aquí no tienes que hacer nada más allá de comprobar que los datos del formulario se recogen correctamente y |
-         | tienen 'forma' de Post. Si no es así, al hacer 'Post.fromJson()' se instanciará un post que no se parece en |
-         | nada a lo indicado en el formulario. Por tanto, pon especial atención a que los nombres indicados en los    |
-         | distintos elementos del formulario se correspondan con las propiedades de la clase Post.                    |
-         |-------------------------------------------------------------------------------------------------------------*/
-
+        //Seguir aquí
         let post: Post = Post.fromJson(form.value);
+        post.id = form.value.id ? form.value.id : '';
+        post.title = form.value.title ? form.value.title : '';
+        post.body = form.value.body ? form.value.body : '';
+        post.intro = form.value.intro ? form.value.intro : '';
+        post.categories = form.value.categories ? form.value.categories : [];
+        post.media = form.value.media ? form.value.media : null;
         post.likes = 0;
         post.author = User.defaultUser();
         post.publicationDate = this._getPostPublicationDate(form.value.publicationDate);
         this.postSubmitted.emit(post);
+
+        
     }
 }

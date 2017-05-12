@@ -18,15 +18,6 @@ export class PostsResolve implements Resolve<Post[]> {
          else if(route.params.categoryId)
              return this._postService.getCategoryPosts(route.params.categoryId);
         }
-
-        /*-----------------------------------------------------------------------------------------|
-         | ~~~ Yellow Path ~~~                                                                     |
-         |-----------------------------------------------------------------------------------------|
-         | Modifica este Resolve para que, en caso de tener que obtener los posts correspondientes |
-         | a una categoría, llame a la función 'getCategoryPosts()' del servicio PostService.      |
-         | Recuerda mirar en los parámetros de la ruta, a ver qué encuentras.                      |
-         |-----------------------------------------------------------------------------------------*/
-
         return this._postService.getPosts();
     }
 }

@@ -1,0 +1,15 @@
+/// Blanco roto
+
+La idea es poder editar un post.
+Podemos añadir un botón en cada post que te lleve al formulario de edición
+Este formulario puede ser el mismo que el de añadir pero si trae un id
+se muestran los datos del post en los campos y te permite editarlo.
+
+Problema: 
+- La url que vería el usuario sería new-story/3, aunque no es una nueva historia (está editando una)
+- Solo debe ver el botón de editar si es el autor de ese post.(como solo se puede logear un usuario comprobamos si el author de ese post es igual a defaultUser.id)
+
+
+
+
+1. Añadir botón de editar tanto en post-preview como en post-details (pista: Hacer lo mismo que en header-bar).
