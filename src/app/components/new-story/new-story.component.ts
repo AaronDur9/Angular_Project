@@ -26,14 +26,29 @@ export class NewStoryComponent implements OnDestroy {
     }
 
     
+    // Cuando pulsan el botón para crear un post se llama a este método
     createPost(post: Post): void {
+        // Se desuscribe de los eventos para crear un post
         this._unsubscribePostCreation();
         this._postSubscription = this._postService.createPost(post).subscribe(() => this._router.navigate(["/"]));
     }
+
+
+    // Cuando pulsen el botón para editar un post se llamará a este
+    editPost(post: Post): void {
+        // Tendremos que desuscribirnos de los eventos para editar un post
+        // Como utilizamos la misma variable para la subscripción utilizamos el mismo método para desuscribirnos
+        this._unsubscribePostCreation();
+        this._postSubscription = this._postService.editPost(post).subscribe(() => this._router.navigate(["/"]));
+    }
+
+
 
     private _unsubscribePostCreation(): void {
         if (this._postSubscription) {
             this._postSubscription.unsubscribe();
         }
     }
+
+
 }

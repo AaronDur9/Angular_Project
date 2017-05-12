@@ -6,6 +6,15 @@
         <span class="name blink-font">{{ post.author.name }}</span>
         <span class="date">{{ post.publicationDate | fromNow }}</span>
     </div>
+    <div id="like" (click)="addLike()">
+        <i [class.liked]="liked" class="fa fa-thumbs-up fa-2x" si aria-hidden="true"> Megus</i>
+    </div>
+    <div (click)="addLike()">
+        <i class="fa fa-thumbs-up" aria-hidden="true"> {{post.likes}}</i>
+    </div>
+    <div class="u-pull-right action-link blink-font">
+        <div *ngIf="login"><a href="/edit-story/{{post.id}}">Editar</a></div>
+    </div>
 </div>
 <div class="post">
     <h3>{{ post.title }}</h3>

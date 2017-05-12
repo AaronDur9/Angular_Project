@@ -12,7 +12,9 @@ export class Post {
         public publicationDate: number,
         public categories: Category[],
         public author: User,
-        public likes: number
+        public likes: number,
+        //Lista de id de usuarios que han dado like a un post
+        public likerUsers: number[]
     ) { }
 
     static fromJson(json: any): Post {
@@ -25,7 +27,8 @@ export class Post {
             json.publicationDate,
             json.categories,
             json.author,
-            json.likes
+            json.likes,
+            json.likerUsers
         );
     }
 

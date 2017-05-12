@@ -42,6 +42,19 @@
     font-size: 0.8em;
 }
 
+#like i {
+    border: solid 1px;
+}
+
+.liked {
+    color: blue;
+}
+
+#like i:hover {
+    cursor: pointer;
+    color: gray;
+}
+
 .post {
     margin-top: 10px;
 }
@@ -59,11 +72,7 @@
 }
 
 .post .html-text {
-    font-family:
-        Georgia,
-        Cambria,
-        "Times New Roman",
-        Times,serif;
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
     font-size: 18px;
     line-height: 1.58;
     letter-spacing: -.004em;

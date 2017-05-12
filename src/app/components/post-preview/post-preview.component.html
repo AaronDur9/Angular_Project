@@ -7,7 +7,7 @@
         <span class="date">{{ post.publicationDate | fromNow }}</span>
     </div>
     <div class="u-pull-right action-link blink-font">
-        <a href="/edit-story/{{post.id}}">Editar</a>
+        <div *ngIf="login"><a href="/edit-story/{{post.id}}">Editar</a></div>
     </div>
 </div>
 

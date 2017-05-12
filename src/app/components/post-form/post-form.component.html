@@ -2,7 +2,8 @@
 
     <div class="row">
         <div class="offset-by-three six columns">
-            <input type="text" placeholder="Título" name="title" #titleRef="ngModel" [ngModel]="post.title" class="u-full-width" required>
+            <h3>Title</h3>
+            <input type="text" placeholder="Título" name="title" #titleRef="ngModel" ngModel={{post?.title}} class="u-full-width" required>
             <!-- nombreRef.errors es un objeto con todos los errores que se hayan producido-->
             <div class="mensaje-error" *ngIf="titleRef.touched && titleRef.errors?.required">
                 El campo "título" es obligatorio
@@ -12,7 +13,8 @@
 
     <div class="row">
         <div class="offset-by-three six columns">
-            <textarea placeholder="Introduce tu historia" name="intro" #introRef="ngModel" ngModel class="u-full-width georgia-font" autogrow required></textarea>
+            <h3>Intro</h3>
+            <textarea placeholder="Introduce tu historia" name="intro" #introRef="ngModel" ngModel={{post?.intro}} class="u-full-width georgia-font" autogrow required></textarea>
             <div class="mensaje-error" *ngIf="introRef.touched && introRef.errors?.required">
                 El campo "intro de la historia" es obligatorio
             </div>
@@ -21,7 +23,9 @@
 
     <div class="row">
         <div class="offset-by-three six columns">
-            <textarea placeholder="Cuenta tu historia" name="body" #bodyRef="ngModel" ngModel class="u-full-width georgia-font" autogrow required></textarea>
+
+            <h3>Body</h3>
+            <textarea placeholder="Cuenta tu historia" name="body" #bodyRef="ngModel" ngModel={{post?.body}} class="u-full-width georgia-font" autogrow required></textarea>
             <div class="mensaje-error" *ngIf="bodyRef.touched && bodyRef.errors?.required">
                 El campo "cuerpo de la historia" es obligatorio
             </div>

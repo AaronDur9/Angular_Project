@@ -13,9 +13,10 @@ import { ActivatedRoute } from '@angular/router';
 export class PostFormComponent implements OnInit {
 
     nowDatetimeLocal: string;
-    post: Post;
+    post: Post = null;
     publicationDateScheduled: boolean = false;
     @Output() postSubmitted: EventEmitter<Post> = new EventEmitter();
+    @Output() postEdited: EventEmitter<Post> = new EventEmitter();
 
 
     constructor(private _activatedRoute: ActivatedRoute) {}
@@ -23,7 +24,6 @@ export class PostFormComponent implements OnInit {
     ngOnInit(): void {
         this.nowDatetimeLocal = this._formatDateToDatetimeLocal(new Date());
         this._activatedRoute.data.forEach((data: { post: Post}) => this.post = data.post);
-        console.log(this.post);
     }
 
     private _formatDateToDatetimeLocal(date: Date) {
@@ -57,20 +57,40 @@ export class PostFormComponent implements OnInit {
         this.publicationDateScheduled = schedule;
     }
 
+
+    //Nos pulsarán este botón  tanto para crear como para editar un post
+    //Si this.post != null significará que lo quiere editar
     submitPost(form: FormGroup): void {
 
-        //Seguir aquí
-        let post: Post = Post.fromJson(form.value);
-        post.id = form.value.id ? form.value.id : '';
-        post.title = form.value.title ? form.value.title : '';
-        post.body = form.value.body ? form.value.body : '';
-        post.intro = form.value.intro ? form.value.intro : '';
-        post.categories = form.value.categories ? form.value.categories : [];
-        post.media = form.value.media ? form.value.media : null;
-        post.likes = 0;
-        post.author = User.defaultUser();
-        post.publicationDate = this._getPostPublicationDate(form.value.publicationDate);
-        this.postSubmitted.emit(post);
+        let postTemp: Post = Post.fromJson(form.value);
+
+        //Editar post
+        if(this.post) {
+            postTemp.id = form.value.id ? form.value.id : this.post.id;
+            postTemp.title = form.value.title ? form.value.title : this.post.title;
+            postTemp.body = form.value.body ? form.value.body : this.post.body;
+            postTemp.intro = form.value.intro ? form.value.intro : this.post.intro;
+            postTemp.categories = form.value.categories ? form.value.categories : this.post.categories;
+            postTemp.media = form.value.media ? form.value.media : this.post.media;
+            postTemp.likes = this.post.likes;
+            postTemp.author = this.post.author;
+            postTemp.likerUsers = this.post.likerUsers;
+            postTemp.publicationDate = form.value.publicationDate ? this._getPostPublicationDate(form.value.publicationDate) : this.post.publicationDate;
+            this.postEdited.emit(postTemp);
+        }
+        else {  //Crear post    
+            postTemp.id = form.value.id ? form.value.id : '';
+            postTemp.title = form.value.title ? form.value.title : '';
+            postTemp.body = form.value.body ? form.value.body : '';
+            postTemp.intro = form.value.intro ? form.value.intro : '';
+            postTemp.categories = form.value.categories ? form.value.categories : [];
+            postTemp.media = form.value.media ? form.value.media : null;
+            postTemp.likes = 0;
+            postTemp.likerUsers = [];
+            postTemp.author = User.defaultUser();
+            postTemp.publicationDate = this._getPostPublicationDate(form.value.publicationDate);
+            this.postSubmitted.emit(postTemp);
+        }
 
         
     }

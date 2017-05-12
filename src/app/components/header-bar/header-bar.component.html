@@ -5,7 +5,7 @@
     </div>
     <div class="u-pull-right">
         <div class="u-pull-right">
-            <search-box></search-box>
+            <search-box (onSearch)="postSearch($event)"></search-box>
         </div>
         <div class="u-pull-right action-link blink-font">
             <a href="/new-story">Escribe una historia</a>

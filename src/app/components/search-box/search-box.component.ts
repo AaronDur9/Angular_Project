@@ -45,6 +45,8 @@ export class SearchBoxComponent {
         setTimeout(() => ((e.target || e.srcElement) as HTMLInputElement).value = "", 650);
     }
 
+
+    //Emite el evento con la cadena a su padre (header-bar)
     notifySearch(e: KeyboardEvent) {
         if ((e.keyCode || e.which) === 13) {
             this.onSearch.emit(((e.target || e.srcElement) as HTMLInputElement).value);
